@@ -140,14 +140,23 @@ body {
     display: none !important;
   }
 }
+.numero {
+  font-size: 10px;     /* Antes quizás estaba en 14px o más */
+  color: gray;         /* Suave, para no competir con los acordes */
+  display: block;
+  margin-bottom: 2px;
+  text-align: left;
+}
 .compas {
-  display: inline-block;
-  padding: 8px;
-  margin: 4px;
-  border: 1px solid gray;
-  min-width: auto;
-  max-width: 100%;
-  width: auto;
-  white-space: nowrap;
+  display: inline-block;      /* para que se ubiquen en línea y se ajusten */
+  width: auto;                /* que no tenga un ancho fijo */
+  min-width: auto;            /* que no tenga mínimo innecesario */
+  max-width: 100%;            /* que no desborde el contenedor */
+  padding: 6px 10px;          /* solo lo necesario visualmente */
+  white-space: nowrap;        /* evita saltos de línea dentro del div */
+  border: 1px solid #999;
+  margin: 2px;
+  background-color: #fff;
+  border-radius: 4px;
   box-sizing: border-box;
 }
