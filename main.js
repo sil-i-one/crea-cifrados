@@ -1,5 +1,6 @@
-let tonalidadOriginal = null;
-let tonalidadActual = null;
+
+let tonalidadOriginal = "C";
+let tonalidadActual = "C";
 let contadorCompas = 1;
 
 const notas = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -10,10 +11,6 @@ document.getElementById("tonalidad-original").addEventListener("change", (e) => 
 });
 
 document.getElementById("tonalidad-destino").addEventListener("change", (e) => {
-  if (!tonalidadOriginal) {
-    alert("Por favor, seleccioná la tonalidad original antes de transponer.");
-    return;
-  }
   const tonalidadDestino = e.target.value;
   const semitonos = calcularSemitonos(tonalidadOriginal, tonalidadDestino);
   transponerAcordes(semitonos);
@@ -29,9 +26,10 @@ function calcularSemitonos(ton1, ton2) {
 function transponerAcordes(semitonos) {
   const compases = document.querySelectorAll(".compas");
   compases.forEach((div) => {
-    let textoOriginal = div.dataset.original || "";
+    let texto = div.innerText.trim();
     const numeroCompas = div.querySelector(".numero-compas");
-    const acordes = textoOriginal.split(/\s+/).map(acorde => transponerAcorde(acorde, semitonos));
+    if (numeroCompas) texto = texto.replace(numeroCompas.textContent, "").trim();
+    const acordes = texto.split(/\s+/).map(acorde => transponerAcorde(acorde, semitonos));
     div.innerHTML = "";
     if (numeroCompas) div.appendChild(numeroCompas);
     div.appendChild(document.createTextNode(acordes.join(" ")));
@@ -75,7 +73,7 @@ document.getElementById("agregar-seccion").addEventListener("click", () => {
   agregarCompas(contenedorCompases);
 
   const eliminarBtn = document.createElement("button");
-  eliminarBtn.className = "eliminar-seccion-btn no-print";
+  eliminarBtn.className = "eliminar-seccion-btn";
   eliminarBtn.textContent = "Eliminar sección";
   eliminarBtn.addEventListener("click", () => {
     seccion.remove();
@@ -87,7 +85,6 @@ function agregarCompas(contenedor) {
   const div = document.createElement("div");
   div.className = "compas";
   div.contentEditable = true;
-  div.dataset.original = "";
 
   const numero = document.createElement("span");
   numero.className = "numero-compas";
@@ -117,7 +114,6 @@ function agregarCompas(contenedor) {
     duplicar.onclick = () => {
       const nuevo = div.cloneNode(true);
       nuevo.querySelector(".numero-compas").textContent = contadorCompas++;
-      nuevo.dataset.original = div.dataset.original;
       contenedor.insertBefore(nuevo, div.nextSibling);
       document.body.removeChild(menu);
     };
@@ -145,13 +141,6 @@ function agregarCompas(contenedor) {
     }
   });
 
-  div.addEventListener("blur", () => {
-    const numero = div.querySelector(".numero-compas");
-    let texto = div.innerText.trim();
-    if (numero) texto = texto.replace(numero.textContent, "").trim();
-    div.dataset.original = texto;
-  });
-
   contenedor.appendChild(div);
 }
 
@@ -159,8 +148,7 @@ document.addEventListener("dragover", (e) => {
   e.preventDefault();
   const dragging = document.querySelector(".dragging");
   const afterElement = getDragAfterElement(e.clientX);
-  const container = dragging?.parentElement;
-  if (!container || !dragging) return;
+  const container = dragging.parentElement;
   if (afterElement == null) {
     container.appendChild(dragging);
   } else {
