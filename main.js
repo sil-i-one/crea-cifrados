@@ -159,7 +159,8 @@ document.addEventListener("dragover", (e) => {
   e.preventDefault();
   const dragging = document.querySelector(".dragging");
   const afterElement = getDragAfterElement(e.clientX);
-  const container = dragging.parentElement;
+  const container = dragging?.parentElement;
+  if (!container || !dragging) return;
   if (afterElement == null) {
     container.appendChild(dragging);
   } else {
