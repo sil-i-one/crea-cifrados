@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>App para Músicos – Acordes</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <h2>Editor de Acordes</h2>
+
+      <label for="titulo">Título de la canción:</label>
+      <input type="text" id="titulo" placeholder="Nombre del tema" />
+
+      <hr />
+
+      <label>Tonalidad original:</label>
+      <select id="tonalidadOriginal">
+        <option>C</option><option>C#</option><option>D</option><option>Eb</option>
+        <option>E</option><option>F</option><option>F#</option><option>G</option>
+        <option>Ab</option><option>A</option><option>Bb</option><option>B</option>
+      </select>
+
+      <label>Tonalidad destino:</label>
+      <select id="tonalidadDestino">
+        <option>C</option><option>C#</option><option>D</option><option>Eb</option>
+        <option>E</option><option>F</option><option>F#</option><option>G</option>
+        <option>Ab</option><option>A</option><option>Bb</option><option>B</option>
+      </select>
+
+      <button onclick="transponer()">Transponer</button>
+
+      <hr />
+
+      <button id="btnAgregarSeccion">+ Agregar sección</button>
+      <button onclick="insertarMetrica()">Agregar métrica</button>
+
+      <hr />
+
+      <div class="botonera">
+        <button onclick="insertarSimbolo('||:')">||:</button>
+        <button onclick="insertarSimbolo(':||')">:||</button>
+        <button onclick="insertarSimbolo('||')">||</button>
+        <button onclick="insertarSimbolo('%')">%</button>
+      </div>
+
+      <hr />
+
+      <button onclick="guardarProyecto()">Guardar proyecto</button>
+      <button onclick="cargarProyectoLocalStorage()">Cargar desde navegador</button>
+      <button onclick="descargarProyecto()">Descargar como archivo</button>
+<input type="file" accept=".txt" onchange="cargarDesdeArchivo(event)">
+      
+      <button onclick="exportar()">🖨️ Exportar/Imprimir</button>
+    </aside>
+
+    <main class="lienzo-wrapper">
+      <div id="lienzo">
+        <h2 id="tituloResultado"></h2>
+        <div id="secciones"></div>
+      </div>
+    </main>
+  </div>
+
+  <ul id="context-menu">
+    <li onclick="duplicarCompas()">Duplicar compás</li>
+    <li onclick="eliminarCompas()">Eliminar compás</li>
+  </ul>
+
+  <script src="main.js"></script>
+</body>
+</html>

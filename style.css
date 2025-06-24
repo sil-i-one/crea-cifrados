@@ -1,0 +1,142 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+}
+
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 280px;
+  background: #ffffff;
+  border-right: 1px solid #ccc;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+}
+
+.sidebar hr {
+  margin: 15px 0;
+}
+
+.sidebar input, .sidebar select, .sidebar button {
+  width: 100%;
+  margin: 5px 0 10px;
+  padding: 8px;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.botonera button {
+  width: 48%;
+  margin: 4px 1%;
+  padding: 10px;
+}
+
+.lienzo-wrapper {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+#lienzo {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.compases-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.compas {
+  background: #e0f7fa;
+  border: 1px solid #00796b;
+  padding: 5px;
+  border-radius: 4px;
+  min-width: 100px;
+}
+
+.compas .editable {
+  min-height: 20px;
+}
+
+.ficha-simbolo {
+  background: #fff8e1;
+  border: 1px dashed #ff6f00;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+#context-menu {
+  position: absolute;
+  display: none;
+  background: white;
+  border: 1px solid #ccc;
+  list-style: none;
+  padding: 0;
+  z-index: 1000;
+}
+
+#context-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+#context-menu li:hover {
+  background: #eee;
+}
+
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  #lienzo, #lienzo * {
+    visibility: visible !important;
+  }
+
+  #lienzo {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .btnAgregarCompas,
+  .agregar-compas-wrapper,
+  .sidebar,
+  #context-menu {
+    display: none !important;
+  }
+}
+
+.eliminar-seccion {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-left: 15px;
+}
+
+@media print {
+  .eliminar-seccion {
+    display: none !important;
+  }
+}
