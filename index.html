@@ -1,132 +1,75 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Editor de Acordes</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      display: flex;
-      gap: 30px;
-      margin: 20px;
-    }
-
-    #panel {
-      width: 240px;
-    }
-
-    #lienzo {
-      border: 1px solid #aaa;
-      padding: 15px;
-      flex-grow: 1;
-    }
-
-    .seccion {
-      margin-bottom: 30px;
-    }
-
-    .compas-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .compas {
-      border: 1px solid #666;
-      padding: 4px;
-      min-width: 60px;
-      min-height: 35px;
-      white-space: pre-wrap;
-      cursor: text;
-    }
-
-    .numero-compas {
-      font-size: 10px;
-      color: #555;
-      display: block;
-    }
-
-    .eliminar-seccion-btn {
-      background-color: #f55;
-      color: white;
-      border: none;
-      padding: 5px;
-      margin-top: 10px;
-      cursor: pointer;
-    }
-
-    .no-print {
-      display: inline-block;
-    }
-
-    @media print {
-      .no-print {
-        display: none !important;
-      }
-    }
-
-    .context-menu {
-      position: absolute;
-      background-color: white;
-      border: 1px solid #ccc;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-      z-index: 1000;
-    }
-
-    .context-menu div {
-      padding: 5px 10px;
-      cursor: pointer;
-    }
-
-    .context-menu div:hover {
-      background-color: #eee;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>App para Músicos – Acordes</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <h2>Editor de Acordes</h2>
 
-  <div id="panel">
-    <h2>Controles</h2>
+      <label for="titulo">Título de la canción:</label>
+      <input type="text" id="titulo" placeholder="Nombre del tema" />
 
-    <label for="tonalidad-original">Tonalidad original:</label><br>
-    <select id="tonalidad-original">
-      <option value="">Selecciona</option>
-      <option value="C">C</option>
-      <option value="C#">C#</option>
-      <option value="D">D</option>
-      <option value="D#">D#</option>
-      <option value="E">E</option>
-      <option value="F">F</option>
-      <option value="F#">F#</option>
-      <option value="G">G</option>
-      <option value="G#">G#</option>
-      <option value="A">A</option>
-      <option value="A#">A#</option>
-      <option value="B">B</option>
-    </select><br><br>
+      <hr />
 
-    <label for="tonalidad-destino">Tonalidad destino:</label><br>
-    <select id="tonalidad-destino">
-      <option value="">Selecciona</option>
-      <option value="C">C</option>
-      <option value="C#">C#</option>
-      <option value="D">D</option>
-      <option value="D#">D#</option>
-      <option value="E">E</option>
-      <option value="F">F</option>
-      <option value="F#">F#</option>
-      <option value="G">G</option>
-      <option value="G#">G#</option>
-      <option value="A">A</option>
-      <option value="A#">A#</option>
-      <option value="B">B</option>
-    </select><br><br>
+      <label>Tonalidad original:</label>
+      <select id="tonalidadOriginal">
+        <option>C</option><option>C#</option><option>D</option><option>Eb</option>
+        <option>E</option><option>F</option><option>F#</option><option>G</option>
+        <option>Ab</option><option>A</option><option>Bb</option><option>B</option>
+      </select>
 
-    <button id="agregar-seccion">Agregar sección</button>
+      <label>Tonalidad destino:</label>
+      <select id="tonalidadDestino">
+        <option>C</option><option>C#</option><option>D</option><option>Eb</option>
+        <option>E</option><option>F</option><option>F#</option><option>G</option>
+        <option>Ab</option><option>A</option><option>Bb</option><option>B</option>
+      </select>
+
+      <button onclick="transponer()">Transponer</button>
+
+      <hr />
+
+      <button id="btnAgregarSeccion">+ Agregar sección</button>
+      <button onclick="insertarMetrica()">Agregar métrica</button>
+
+      <hr />
+
+      <div class="botonera">
+        <button onclick="insertarSimbolo('||:')">||:</button>
+        <button onclick="insertarSimbolo(':||')">:||</button>
+        <button onclick="insertarSimbolo('||')">||</button>
+        <button onclick="insertarSimbolo('%')">%</button>
+      </div>
+
+      <hr />
+
+      <button onclick="guardarProyecto()">Guardar proyecto</button>
+      <button onclick="cargarProyectoLocalStorage()">Cargar desde navegador</button>
+      <button onclick="descargarProyecto()">Descargar como archivo</button>
+<input type="file" accept=".txt" onchange="cargarDesdeArchivo(event)">
+      
+      <button onclick="exportar()">🖨️ Exportar/Imprimir</button>
+    </aside>
+
+    <main class="lienzo-wrapper">
+      <div id="lienzo">
+        <h2 id="tituloResultado"></h2>
+        <div id="secciones"></div>
+      </div>
+    </main>
   </div>
 
-  <div id="lienzo"></div>
+  <ul id="context-menu">
+    <li onclick="duplicarCompas()">Duplicar compás</li>
+    <li onclick="eliminarCompas()">Eliminar compás</li>
+  </ul>
 
   <script src="main.js"></script>
 </body>
 </html>
+
