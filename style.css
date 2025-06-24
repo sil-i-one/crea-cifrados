@@ -140,3 +140,14 @@ body {
     display: none !important;
   }
 }
+.compas {
+  display: inline-block;
+  padding: 8px;
+  margin: 4px;
+  border: 1px solid gray;
+  min-width: auto;
+  max-width: 100%;
+  width: auto;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
