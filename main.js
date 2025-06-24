@@ -1,6 +1,5 @@
-
-let tonalidadOriginal = "C";
-let tonalidadActual = "C";
+let tonalidadOriginal = null;
+let tonalidadActual = null;
 let contadorCompas = 1;
 
 const notas = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -11,6 +10,10 @@ document.getElementById("tonalidad-original").addEventListener("change", (e) => 
 });
 
 document.getElementById("tonalidad-destino").addEventListener("change", (e) => {
+  if (!tonalidadOriginal) {
+    alert("Por favor, seleccioná la tonalidad original antes de transponer.");
+    return;
+  }
   const tonalidadDestino = e.target.value;
   const semitonos = calcularSemitonos(tonalidadOriginal, tonalidadDestino);
   transponerAcordes(semitonos);
@@ -72,7 +75,7 @@ document.getElementById("agregar-seccion").addEventListener("click", () => {
   agregarCompas(contenedorCompases);
 
   const eliminarBtn = document.createElement("button");
-  eliminarBtn.className = "eliminar-seccion-btn";
+  eliminarBtn.className = "eliminar-seccion-btn no-print";
   eliminarBtn.textContent = "Eliminar sección";
   eliminarBtn.addEventListener("click", () => {
     seccion.remove();
@@ -84,7 +87,7 @@ function agregarCompas(contenedor) {
   const div = document.createElement("div");
   div.className = "compas";
   div.contentEditable = true;
-  div.dataset.original = ""; // Guardamos el texto original para futuras transposiciones
+  div.dataset.original = "";
 
   const numero = document.createElement("span");
   numero.className = "numero-compas";
