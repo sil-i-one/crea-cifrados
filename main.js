@@ -26,10 +26,9 @@ function calcularSemitonos(ton1, ton2) {
 function transponerAcordes(semitonos) {
   const compases = document.querySelectorAll(".compas");
   compases.forEach((div) => {
-    let texto = div.innerText.trim();
+    let textoOriginal = div.dataset.original || "";
     const numeroCompas = div.querySelector(".numero-compas");
-    if (numeroCompas) texto = texto.replace(numeroCompas.textContent, "").trim();
-    const acordes = texto.split(/\s+/).map(acorde => transponerAcorde(acorde, semitonos));
+    const acordes = textoOriginal.split(/\s+/).map(acorde => transponerAcorde(acorde, semitonos));
     div.innerHTML = "";
     if (numeroCompas) div.appendChild(numeroCompas);
     div.appendChild(document.createTextNode(acordes.join(" ")));
@@ -85,6 +84,7 @@ function agregarCompas(contenedor) {
   const div = document.createElement("div");
   div.className = "compas";
   div.contentEditable = true;
+  div.dataset.original = ""; // Guardamos el texto original para futuras transposiciones
 
   const numero = document.createElement("span");
   numero.className = "numero-compas";
@@ -114,6 +114,7 @@ function agregarCompas(contenedor) {
     duplicar.onclick = () => {
       const nuevo = div.cloneNode(true);
       nuevo.querySelector(".numero-compas").textContent = contadorCompas++;
+      nuevo.dataset.original = div.dataset.original;
       contenedor.insertBefore(nuevo, div.nextSibling);
       document.body.removeChild(menu);
     };
@@ -139,6 +140,13 @@ function agregarCompas(contenedor) {
       e.preventDefault();
       agregarCompas(contenedor);
     }
+  });
+
+  div.addEventListener("blur", () => {
+    const numero = div.querySelector(".numero-compas");
+    let texto = div.innerText.trim();
+    if (numero) texto = texto.replace(numero.textContent, "").trim();
+    div.dataset.original = texto;
   });
 
   contenedor.appendChild(div);
