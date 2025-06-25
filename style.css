@@ -1,162 +1,173 @@
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f7f7f7;
+  font-family: sans-serif;
+  background: #f3f3f3;
 }
 
-.app-container {
+.container {
   display: flex;
   height: 100vh;
 }
 
-.sidebar {
-  width: 280px;
-  background: #ffffff;
-  border-right: 1px solid #ccc;
+.menu {
+  width: 250px;
+  background: #2d2d2d;
+  color: white;
   padding: 20px;
   box-sizing: border-box;
-  overflow-y: auto;
 }
 
-.sidebar h2 {
+.menu h2 {
   margin-top: 0;
+  font-size: 24px;
 }
 
-.sidebar hr {
-  margin: 15px 0;
-}
-
-.sidebar input, .sidebar select, .sidebar button {
+.menu label, .menu button, .menu input, .menu select {
+  display: block;
   width: 100%;
-  margin: 5px 0 10px;
-  padding: 8px;
-  font-size: 1em;
-  box-sizing: border-box;
+  margin-top: 15px;
 }
 
-.botonera button {
-  width: 48%;
-  margin: 4px 1%;
-  padding: 10px;
-}
-
-.lienzo-wrapper {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-}
-
-#lienzo {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
-.compases-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.compas {
-  background: #e0f7fa;
-  border: 1px solid #00796b;
+.menu input, .menu select {
   padding: 5px;
-  border-radius: 4px;
-  min-width: 100px;
+  font-size: 16px;
 }
 
-.compas .editable {
-  min-height: 20px;
-}
-
-.ficha-simbolo {
-  background: #fff8e1;
-  border: 1px dashed #ff6f00;
-  padding: 4px 8px;
-  border-radius: 4px;
-}
-
-#context-menu {
-  position: absolute;
-  display: none;
-  background: white;
-  border: 1px solid #ccc;
-  list-style: none;
-  padding: 0;
-  z-index: 1000;
-}
-
-#context-menu li {
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-#context-menu li:hover {
-  background: #eee;
-}
-
-@media print {
-  body * {
-    visibility: hidden !important;
-  }
-
-  #lienzo, #lienzo * {
-    visibility: visible !important;
-  }
-
-  #lienzo {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-  }
-
-  .btnAgregarCompas,
-  .agregar-compas-wrapper,
-  .sidebar,
-  #context-menu {
-    display: none !important;
-  }
-}
-
-.eliminar-seccion {
-  background-color: #ef4444;
+.menu button {
+  padding: 8px;
+  background: #4caf50;
   color: white;
   border: none;
-  border-radius: 6px;
-  padding: 6px 12px;
   cursor: pointer;
-  font-size: 0.9rem;
-  margin-left: 15px;
 }
 
+.menu button:disabled {
+  background: #888;
+  cursor: default;
+}
+
+.editor {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  background: white;
+}
+
+#canvas {
+  min-height: 90%;
+  border: 1px solid #ccc;
+  padding: 20px;
+}
+
+.part {
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.measure {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border: 1px solid #000;
+  padding: 6px 8px;
+  margin: 5px;
+  border-radius: 6px;
+  background: #fff;
+  max-width: fit-content;
+  gap: 6px;
+}
+
+.chord {
+  display: inline-block;
+  padding: 4px 8px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 16px;
+  background-color: #f8f8f8;
+  font-weight: bold;
+  font-family: monospace;
+}
+
+.comment {
+  background: #eee;
+  display: inline-flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  margin: 10px 0;
+  font-style: italic;
+}
+
+.meter {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 5px;
+  border: 1px dashed #444;
+  font-weight: bold;
+}
+
+.symbol {
+  display: inline-block;
+  margin: 8px;
+  font-size: 24px;
+}
+/* Estilo solo para imprimir */
 @media print {
-  .eliminar-seccion {
+  body, html {
+    margin: 0;
+    padding: 0;
+    background: white;
+    color: black;
+  }
+
+  .menu, .container > aside {
     display: none !important;
   }
-}
-.numero {
-  font-size: 10px;     /* Antes quizás estaba en 14px o más */
-  color: gray;         /* Suave, para no competir con los acordes */
-  display: block;
-  margin-bottom: 2px;
-  text-align: left;
-}
-.compas {
-  display: inline-block;      /* para que se ubiquen en línea y se ajusten */
-  width: auto;                /* que no tenga un ancho fijo */
-  min-width: auto;            /* que no tenga mínimo innecesario */
-  max-width: 100%;            /* que no desborde el contenedor */
-  padding: 6px 10px;          /* solo lo necesario visualmente */
-  white-space: nowrap;        /* evita saltos de línea dentro del div */
-  border: 1px solid #999;
-  margin: 2px;
-  background-color: #fff;
-  border-radius: 4px;
-  box-sizing: border-box;
+
+  .editor {
+    display: block !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  #canvas {
+    display: block !important;
+    padding: 40px;
+    font-size: 16px;
+    line-height: 1.4;
+    background: white !important;
+    color: black !important;
+  }
+
+  #canvas * {
+    color: black !important;
+    background: none !important;
+  }
+
+  #titulo {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+
+  .measure {
+    border: 1px solid #000 !important;
+    padding: 6px 8px;
+    margin: 5px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .chord {
+    border: 1px solid #666 !important;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    font-weight: bold;
+    font-family: monospace;
+    background-color: transparent !important;
+  }
 }
