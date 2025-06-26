@@ -1,4 +1,3 @@
-
 let tonalidadBase = "";
 let canvas = document.getElementById("canvas");
 const notas = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -7,7 +6,8 @@ document.getElementById("keySelect").addEventListener("change", () => {
   tonalidadBase = document.getElementById("keySelect").value;
   if (tonalidadBase) {
     canvas.contentEditable = "true";
-    canvas.innerHTML = ""; document.getElementById("keySelect").disabled = true;
+    canvas.innerHTML = "";
+    document.getElementById("keySelect").disabled = true;
     mostrarTitulo();
     activarControles(true);
   }
@@ -26,7 +26,7 @@ function mostrarTitulo() {
   if (!tituloEl) {
     tituloEl = document.createElement("h1");
     tituloEl.id = "titulo";
-    tituloEl.style.textAlign = "center"; // centrado visual
+    tituloEl.style.textAlign = "center";
     canvas.insertBefore(tituloEl, canvas.firstChild);
   }
   tituloEl.textContent = titulo;
@@ -99,10 +99,9 @@ function crearCompás() {
   measure.appendChild(input);
   canvas.appendChild(measure);
 
-// Agregamos una barra visual al final del compás
-const barra = document.createElement("div");
-barra.className = "barra";
-measure.appendChild(barra);
+  const barra = document.createElement("div");
+  barra.className = "barra";
+  measure.appendChild(barra);
   input.focus();
 }
 
@@ -154,25 +153,47 @@ document.getElementById("addSymbol").addEventListener("click", () => {
   }
 });
 
+// GUARDAR COMO .html
 document.getElementById("saveTxt").addEventListener("click", () => {
-  const txt = canvas.innerText;
-  const blob = new Blob([txt], { type: "text/plain" });
+  const htmlCompleto = `
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="UTF-8"><title>Cifrado guardado</title></head>
+    <body>${canvas.innerHTML}</body>
+    </html>
+  `;
+  const blob = new Blob([htmlCompleto], { type: "text/html" });
   const link = document.createElement("a");
-  link.download = "cifrado.txt";
+  link.download = "cifrado.html";
   link.href = URL.createObjectURL(blob);
   link.click();
 });
 
+// CARGAR .html O .txt
 document.getElementById("loadTxt").addEventListener("change", (event) => {
   const file = event.target.files[0];
   if (!file) return;
+
   const reader = new FileReader();
   reader.onload = (e) => {
-    const text = e.target.result;
-    const el = document.createElement("pre");
-    el.textContent = text;
-    canvas.innerHTML = ""; document.getElementById("keySelect").disabled = true;
-    canvas.appendChild(el);
+    canvas.innerHTML = "";
+    document.getElementById("keySelect").disabled = true;
+    canvas.contentEditable = "true";
+    activarControles(true);
+
+    if (file.name.endsWith(".html")) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(e.target.result, "text/html");
+      canvas.innerHTML = doc.body.innerHTML;
+    } else {
+      const el = document.createElement("pre");
+      el.textContent = e.target.result;
+      canvas.appendChild(el);
+    }
+
+    mostrarTitulo();
+    transponerTodos(document.getElementById("keyTarget").value);
   };
+
   reader.readAsText(file);
 });
