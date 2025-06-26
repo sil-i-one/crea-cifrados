@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -48,10 +47,20 @@
         <option value="𝄐">𝄐 (Fermata)</option>
       </select>
       <hr>
+
       <button id="saveTxt">Guardar como .txt</button>
-      <input type="file" id="loadTxt" accept=".txt" />
+      <input type="file" id="loadTxt" accept=".html,.txt" />
       <hr>
-<button onclick="window.print()">🖨️ Imprimir</button>
+
+      <button id="readmeBtn">Léeme</button>
+      <hr>
+
+      <label for="zoomSlider">Zoom:</label>
+      <input type="range" id="zoomSlider" min="50" max="150" value="100" step="5" />
+      <span id="zoomValue">100%</span>
+      <hr>
+
+      <button onclick="window.print()">🖨️ Imprimir</button>
     </aside>
 
     <main class="editor">
@@ -59,6 +68,8 @@
         <p class="placeholder">Selecciona una tonalidad para comenzar…</p>
       </div>
     </main>
+
+  </div>
 
   <script src="main.js"></script>
 </body>
